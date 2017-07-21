@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/cube-holo100.unity
+  isLoaded: 1
+  isActive: 1

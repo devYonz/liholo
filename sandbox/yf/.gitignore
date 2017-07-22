@@ -3,7 +3,8 @@
 # =============== #
 */[Tt]emp/
 */[Oo]bj/
-*/[Bb]uild
+*/[Bb]uild/*
+!*/[Bb]uild/.gitkeep
 */[Bb]uilds/
 */[Ll]ibrary/
 sysinfo.txt

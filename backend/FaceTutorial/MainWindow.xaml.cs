@@ -15,22 +15,9 @@ namespace FaceTutorial
 {
     public partial class MainWindow : Window
     {
-        // Replace the first parameter with your valid subscription key.
-        //
-        // Replace or verify the region in the second parameter.
-        //
-        // You must use the same region in your REST API call as you used to obtain your subscription keys.
-        // For example, if you obtained your subscription keys from the westus region, replace
-        // "westcentralus" in the URI below with "westus".
-        //
-        // NOTE: Free trial subscription keys are generated in the westcentralus region, so if you are using
-        // a free trial subscription key, you should not need to change this region.
         private readonly IFaceServiceClient faceServiceClient =
             new FaceServiceClient("d2f5dd1babbe48a8b8e0e6cc3bf39758", "https://westus.api.cognitive.microsoft.com/face/v1.0");
 
-        Face[] faces;                   // The list of detected faces.
-        String[] faceDescriptions;      // The list of descriptions for the detected faces.
-        double resizeFactor;            // The resize factor for the displayed image.
         string imagePath;
         string personGroupId = "testlihalo_v2";
         string personGroupName = "testGroup";

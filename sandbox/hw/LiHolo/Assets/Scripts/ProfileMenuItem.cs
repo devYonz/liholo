@@ -1,28 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using HoloToolkit.Unity.InputModule; 
 
 public class ProfileMenuItem : MonoBehaviour, IFocusable {
 
+    [HideInInspector]
+    public string text; 
+
+    private ProfileMenu profileMenu; 
     private Animation anim; 
 
 	void Start()
     {
+        profileMenu = gameObject.GetComponentInParent<ProfileMenu>(); 
         anim = gameObject.GetComponent<Animation>(); 
 	}
 
     void IFocusable.OnFocusEnter()
     {
-        print("Enter");
-
-        anim.PlayQueued("a_Highlight");
+        profileMenu.UpdateFocusedItem(this);
     }
 
-    void IFocusable.OnFocusExit()
+    public void Focus()
     {
-        print("Exit");
-
-        anim.PlayQueued("a_UnHighlight"); 
+        anim.PlayQueued("a_Focus");
     }
+
+    public void UnFocus()
+    {
+        anim.PlayQueued("a_UnFocus");
+    }
+
+    void IFocusable.OnFocusExit() { }
 }

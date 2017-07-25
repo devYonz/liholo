@@ -22,8 +22,8 @@ GameObject:
   - component: {fileID: 33343812869506586}
   - component: {fileID: 136708476633283452}
   - component: {fileID: 23336498034015444}
-  - component: {fileID: 114772768043144760}
   - component: {fileID: 111888200357583328}
+  - component: {fileID: 114772768043144760}
   m_Layer: 0
   m_Name: p_ProfileMenuItem
   m_TagString: Untagged
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3e41617e4cea06459717efae0170b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onFocusZoomAmount: 0.1
+  fieldToDisplay: 
 --- !u!136 &136708476633283452
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -315,7 +315,8 @@
     <Compile Include="Assets\Lib\HoloToolkit\Utilities\Scripts\VectorRollingStatistics.cs" />
     <Compile Include="Assets\Lib\HoloToolkit\Utilities\Scripts\WorldAnchorManager.cs" />
     <Compile Include="Assets\Lib\HoloToolkit\Utilities\Shaders\FastConfigurable\Scripts\CalibrationSpace.cs" />
-    <Compile Include="Assets\Scripts\ProfileDataController.cs" />
+    <Compile Include="Assets\Scripts\ProfileData.cs" />
+    <Compile Include="Assets\Scripts\ProfileMenu.cs" />
     <Compile Include="Assets\Scripts\ProfileMenuItem.cs" />
   </ItemGroup>
   <ItemGroup>

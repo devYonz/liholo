@@ -7,7 +7,10 @@
             <Button x:Name="BrowseButton" Width="72" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left"
                     Content="Browse..."
                     Click="BrowseButton_Click" />
-            <TextBox x:Name="Profile_URL" Height="20" Width="60" ></TextBox>
+            <TextBox x:Name="Name" Height="20" Width="60" AcceptsReturn="True" Text="Name" />
+            <TextBox x:Name="Title" Height="20" Width="60" AcceptsReturn="True" Text="Title" />
+            <TextBox x:Name="Company" Height="20" Width="60" AcceptsReturn="True" Text="Company" />
+            <TextBox x:Name="NumConnections" Height="20" Width="60" AcceptsReturn="True" />
             <Button x:Name="Store" Width="72" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left"
                     Content="Store" Click="storeInPersonGroup"/>
             <Button x:Name="Test" Width="72" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Find Profile" Click="testWithFaceAPI"/>

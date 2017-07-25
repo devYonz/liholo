@@ -4,12 +4,14 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.ProjectOxford.Common.Contract;
 using Microsoft.ProjectOxford.Face;
 using Microsoft.ProjectOxford.Face.Contract;
+using Newtonsoft.Json.Linq;
 
 namespace FaceTutorial
 {
@@ -19,7 +21,7 @@ namespace FaceTutorial
             new FaceServiceClient("d2f5dd1babbe48a8b8e0e6cc3bf39758", "https://westus.api.cognitive.microsoft.com/face/v1.0");
 
         string imagePath;
-        string personGroupId = "testlihalo_v2";
+        string personGroupId = "testlihalo_v3";
         string personGroupName = "testGroup";
 
         public MainWindow()
@@ -64,39 +66,51 @@ namespace FaceTutorial
             }
         }
 
-        private async void createPersonAndAddFace()
+        private async void addFaceAndTrainData(string imagePath, System.Guid personId)
         {
-            // Create a person
             try
             {
-                CreatePersonResult res = await faceServiceClient.CreatePersonAsync(this.personGroupId, this.Profile_URL.Text);
-                Console.Out.WriteLine("Created Peson with Id " + res.PersonId);
-                System.Guid personId = res.PersonId;
                 using (Stream imageFileStream = File.OpenRead(imagePath))
                 {
                     AddPersistedFaceResult faceRes = await faceServiceClient.AddPersonFaceAsync(this.personGroupId, personId, imageFileStream);
                     Console.Out.WriteLine("Added face to Person with Id " + faceRes.PersistedFaceId);
                 }
+
+
+                await faceServiceClient.TrainPersonGroupAsync(this.personGroupId);
+                TrainingStatus status = null;
+                do
+                {
+                    status = await faceServiceClient.GetPersonGroupTrainingStatusAsync(this.personGroupId);
+                } while (status.Status.ToString() != "Succeeded");
+            }
+            catch (FaceAPIException f)
+            {
+                MessageBox.Show(f.ErrorCode, f.ErrorMessage);
+            }
+        }
+        private async void createPersonAndAddFace()
+        {
+            // Create a person
+            System.Guid personId;
+            try
+            {
+                string userData = Newtonsoft.Json.JsonConvert.SerializeObject(
+                    new { Name = this.Name.Text, Company = this.Company.Text, Title = this.Title.Text, NumConnections = this.NumConnections.Text });
+
+                Console.Out.WriteLine("User Data is " + userData);
+                CreatePersonResult res = await faceServiceClient.CreatePersonAsync(this.personGroupId, this.Name.Text, userData: userData);
+                Console.Out.WriteLine("Created Peson with Id " + res.PersonId);
+                personId = res.PersonId;
+                
             }
             catch (FaceAPIException f)
             {
                 MessageBox.Show(f.ErrorCode, f.ErrorMessage);
                 return;
             }
-
-            try
-            {
-                await faceServiceClient.TrainPersonGroupAsync(this.personGroupId);
-                TrainingStatus status = null;
-                do
-                {
-                   status = await faceServiceClient.GetPersonGroupTrainingStatusAsync(this.personGroupId);  
-                } while (status.Status.ToString() != "Succeeded");
-            }
-            catch(FaceAPIException f)
-            {
-                MessageBox.Show(f.ErrorCode, f.ErrorMessage);
-            }
+        
+            this.addFaceAndTrainData(imagePath, personId);
         }
 
         private void storeInPersonGroup(object sender, RoutedEventArgs e)
@@ -110,7 +124,10 @@ namespace FaceTutorial
             try
             {
                 Person p = await faceServiceClient.GetPersonAsync(this.personGroupId, id);
-                MessageBox.Show("Person Data is " + p.Name);
+                string json_obj = Newtonsoft.Json.JsonConvert.SerializeObject(p.UserData);
+                MessageBox.Show(
+                    "Person Data is " + p.Name + " User data " + json_obj);
+                Console.Out.WriteLine("User data: " + json_obj);
             } 
             catch (FaceAPIException f)
             {
@@ -151,7 +168,12 @@ namespace FaceTutorial
                     Console.Out.WriteLine("Looking at face Id " + res[i].FaceId + " with Candidates " + res[i].Candidates.Length);
                     for (int j = 0; j < res[i].Candidates.Length; ++j)
                     {
-                        Console.Out.WriteLine("Match found for person " + res[i].Candidates[j].PersonId);
+                        Console.Out.WriteLine("Match found for person " + res[i].Candidates[j].PersonId + " With confidence " + res[i].Candidates[j].Confidence);
+                        // If the match is good for the person, then train the data with the current image.
+                        if (res[i].Candidates[j].Confidence > 0.5)
+                        {
+                            this.addFaceAndTrainData(imagePath, res[i].Candidates[j].PersonId);
+                        }
                         this.getPersonData(res[i].Candidates[j].PersonId);
                     }
                 }

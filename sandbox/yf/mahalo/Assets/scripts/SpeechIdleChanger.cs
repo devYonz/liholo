@@ -1,26 +1,35 @@
 ﻿using UnityEngine;
 using HoloToolkit.Unity.InputModule;
 using UnityEngine.VR.WSA.WebCam;
-using UnityEngine.Windows;
 using System.Linq;
 
-public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandler
+/// <summary>
+/// Functionality built to change color of sphere on AirTap
+/// Stop camera on Hello keyword
+/// Take a picture on Mahalo keyword
+/// </summary>
+public class SpeechIdleChanger : MonoBehaviour
 {
     bool mahalo;
+    bool cameraReady;
+    private string latestCapturePath;
     PhotoCapture _photoCaptureObject = null;
 
     void Start()
     {
-        mahalo = false;   
+        mahalo = false;
+        cameraReady = false;
+        Debug.Log("Camera is OFF");
+        PhotoCapture.CreateAsync(true, OnPhotoCaptureCreated);
     }
 
     void Update()
     {
         if (mahalo)
         {
-            Debug.Log("Mahalo frame capture to be invoked");
+            Debug.Log("Mahalo frame capture getting invoked");
             mahalo = false;
-            // PhotoCapture.CreateAsync(false, OnPhotoCaptureCreated);
+            TakePhoto();
         }
 
     }
@@ -37,6 +46,7 @@ public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandl
                 break;
             case "hello":
                 Debug.Log("Recieved a Hello keyword");
+                StopCamera();
                 break;
             default:
                 break;
@@ -45,6 +55,27 @@ public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandl
     #endregion ISpeechHandler
 
     #region CameraRegion
+    public void TakePhoto()
+    {
+        if (cameraReady)
+        {
+            string file = string.Format(@"Image_{0:yyyy-MM-dd_hh-mm-ss-tt}.jpg", System.DateTime.Now);
+            latestCapturePath = System.IO.Path.Combine(Application.persistentDataPath, file);
+
+            _photoCaptureObject.TakePhotoAsync(latestCapturePath, PhotoCaptureFileOutputFormat.JPG, OnCapturedPhotoToDisk);
+        }
+        else
+        {
+            Debug.LogWarning("The camera is not ready.");
+        }
+    }
+    public void StopCamera()
+    {
+        if (cameraReady)
+        {
+            _photoCaptureObject.StopPhotoModeAsync(OnStoppedPhotoMode);
+        }
+    }
     void OnPhotoCaptureCreated(PhotoCapture captureObject)
     {
         _photoCaptureObject = captureObject;
@@ -58,22 +89,17 @@ public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandl
         c.pixelFormat = CapturePixelFormat.BGRA32;
 
         captureObject.StartPhotoModeAsync(c, OnPhotoModeStarted);
-
     }
     private void OnPhotoModeStarted(PhotoCapture.PhotoCaptureResult result)
     {
+        cameraReady = result.success;
         if (result.success)
         {
-            string filename = string.Format(@"screen_pic.jpg");
-            string filePath = System.IO.Path.Combine(Application.persistentDataPath, filename);
-
-            //doing this to get formatted image
-            _photoCaptureObject.TakePhotoAsync(filePath, PhotoCaptureFileOutputFormat.JPG, OnCapturedPhotoToDisk);
-
+            Debug.Log("Camer is Ready");
         }
         else
         {
-            Debug.Log("Say: Unable to start photo mode! Hasta la vista, baby.");
+            Debug.LogError("Unable to get Camera ready, capture functionality will not work");
         }
     }
 
@@ -81,19 +107,14 @@ public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandl
     {
         if (result.success)
         {
-            string filename = string.Format(@"terminator_analysis.jpg");
-            string filePath = System.IO.Path.Combine(Application.persistentDataPath, filename);
-
-            byte[] image = File.ReadAllBytes(filePath);
+            Debug.Log("Photo captured at: " + latestCapturePath);
             // member_id = pankit(image | filepath)
             //  profileData = getProfileData (member_id)
             // add componentObject(profileData)
-            
-
         }
         else
         {
-            Debug.Log("DIAGNOSTIC\n**************\n\nFailed to save Photo to disk.");
+            Debug.LogError("ERROR\n**************\n\nFailed to save Photo to disk.");
         }
         _photoCaptureObject.StopPhotoModeAsync(OnStoppedPhotoMode);
     }
@@ -102,6 +123,7 @@ public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandl
     {
         _photoCaptureObject.Dispose();
         _photoCaptureObject = null;
+        Debug.Log("Camera OFF");
     }
     #endregion Camera Region
     #region IInputClickHandler

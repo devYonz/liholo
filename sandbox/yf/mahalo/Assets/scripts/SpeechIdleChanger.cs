@@ -8,7 +8,7 @@ using System.Linq;
 /// Stop camera on Hello keyword
 /// Take a picture on Mahalo keyword
 /// </summary>
-public class SpeechIdleChanger : MonoBehaviour
+public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandler
 {
     bool mahalo;
     bool cameraReady;

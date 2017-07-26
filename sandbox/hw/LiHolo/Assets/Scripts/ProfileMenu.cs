@@ -15,10 +15,10 @@ public class ProfileMenu : MonoBehaviour {
 
 	void Start()
     {
-        data = LoadProfileData(dataFileName); 
+        data = LoadProfileData(dataFileName);
 
-        nameText.text = data.firstName + " " + data.lastName;
-        infoText.text = ""; 
+        nameText.text = ""; // data.firstName + " " + data.lastName;
+        infoText.text = "";
 
         menuItems = gameObject.GetComponentsInChildren<ProfileMenuItem>();
         menuItems[0].text = data.headline; 
@@ -26,7 +26,7 @@ public class ProfileMenu : MonoBehaviour {
         menuItems[2].text = data.summary;
         menuItems[3].text = data.industryName;
 
-        infoTextAnim = infoText.GetComponent<Animation>(); 
+        infoTextAnim = infoText.GetComponent<Animation>();
     }
 
     public void UpdateFocusedItem(ProfileMenuItem item)

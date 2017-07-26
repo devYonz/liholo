@@ -14,6 +14,9 @@ public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandl
     bool cameraReady;
     private string latestCapturePath;
     PhotoCapture _photoCaptureObject = null;
+	string sub_key = "<sub_key_here>";
+	string personGroupId = "<person_group_here>";
+
 
     void Start()
     {
@@ -103,13 +106,28 @@ public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandl
         }
     }
 
+	private void getProfileData(System.Guid personId) {
+		// Returns the json from userData for the given person
+		// faceServiceClient.GetPersonAsync(this.personGroupId, id);
+		// return json_obj 
+	}
+
+	private void getFaceFromImage() {
+		// Returns the Face object in the image.
+	}
+
+	private void identifyFaceFromPersonGroup() {
+		//Returns the personId for the matching person in the image.
+	}
+
     void OnCapturedPhotoToDisk(PhotoCapture.PhotoCaptureResult result)
     {
         if (result.success)
         {
-            Debug.Log("Photo captured at: " + latestCapturePath);
-            // member_id = pankit(image | filepath)
-            //  profileData = getProfileData (member_id)
+			Debug.Log("Photo captured at: " + latestCapturePath);
+			// face = getFaceFromImage()
+			// personIds = identifyFaceFromPersonGroup(faceIds)
+			// getProfileData(personId)
             // add componentObject(profileData)
         }
         else

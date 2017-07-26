@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 460494827}
   - component: {fileID: 460494832}
   m_Layer: 5
-  m_Name: ProfileCanvas
+  m_Name: ProfileMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1051,6 +1051,8 @@ GameObject:
   - component: {fileID: 2137000296}
   - component: {fileID: 2137000295}
   - component: {fileID: 2137000294}
+  - component: {fileID: 2137000297}
+  - component: {fileID: 2137000298}
   m_Layer: 5
   m_Name: InfoText
   m_TagString: Untagged
@@ -1115,3 +1117,30 @@ RectTransform:
   m_AnchoredPosition: {x: 17, y: 0}
   m_SizeDelta: {x: 150, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!111 &2137000297
+Animation:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2137000293}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: edcca9de3d123244bbb2fa33589ce479, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: edcca9de3d123244bbb2fa33589ce479, type: 2}
+  - {fileID: 7400000, guid: 72efa7fbac982444d822475d66e9356d, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &2137000298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2137000293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ec75b3470c5fa4b8e110973ce2d452, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

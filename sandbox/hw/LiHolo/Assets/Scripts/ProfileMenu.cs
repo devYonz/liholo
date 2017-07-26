@@ -10,7 +10,8 @@ public class ProfileMenu : MonoBehaviour {
 
     private ProfileData data; 
     private ProfileMenuItem[] menuItems;
-    private ProfileMenuItem focusedItem; 
+    private ProfileMenuItem focusedItem;
+    private Animation infoTextAnim; 
 
 	void Start()
     {
@@ -24,6 +25,8 @@ public class ProfileMenu : MonoBehaviour {
         menuItems[1].text = data.locationName;
         menuItems[2].text = data.summary;
         menuItems[3].text = data.industryName;
+
+        infoTextAnim = infoText.GetComponent<Animation>(); 
     }
 
     public void UpdateFocusedItem(ProfileMenuItem item)
@@ -32,11 +35,13 @@ public class ProfileMenu : MonoBehaviour {
             return;
 
         if (focusedItem)
+        {
             focusedItem.UnFocus();
+            infoTextAnim.Play("a_FadeOut");
+        }
 
         focusedItem = item;
         focusedItem.Focus();
-        infoText.text = focusedItem.text; 
     }
 
     public ProfileData LoadProfileData(string fileName)
@@ -53,5 +58,11 @@ public class ProfileMenu : MonoBehaviour {
             Debug.LogError("Error loading profile data from JSON");
             return new ProfileData(); 
         }
+    }
+
+    public void UpdateText()
+    {
+        infoText.text = focusedItem.text;
+        infoTextAnim.Play("a_FadeIn"); 
     }
 }

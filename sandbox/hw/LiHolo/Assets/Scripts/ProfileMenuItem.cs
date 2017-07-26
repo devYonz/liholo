@@ -22,12 +22,12 @@ public class ProfileMenuItem : MonoBehaviour, IFocusable {
 
     public void Focus()
     {
-        anim.PlayQueued("a_Focus");
+        anim.PlayQueued("a_FocusIn");
     }
 
     public void UnFocus()
     {
-        anim.PlayQueued("a_UnFocus");
+        anim.PlayQueued("a_FocusOut");
     }
 
     void IFocusable.OnFocusExit() { }

@@ -2,6 +2,7 @@
 using System;
 
 
+[Serializable]
 public class Face
 {
     public string faceId;

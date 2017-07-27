@@ -85,7 +85,7 @@ public class FaceAPI
         }
     } **/
 
-    public IEnumerator getFaceDataFromImage(string filePath)
+    public IEnumerator getFaceDataFromImage(string filePath, System.Action<Person> callback)
     {
         byte[] bytes = UnityEngine.Windows.File.ReadAllBytes(filePath);
 
@@ -96,10 +96,17 @@ public class FaceAPI
 
         WWW detectImageResponse = new WWW(urls["detect"], bytes, headers);
         yield return detectImageResponse;
+        if(  !this.inspectResponse(detectImageResponse))  {
+            yield break;
+        }
+
+
         string responseData = detectImageResponse.text;
-        Debug.Log("Response from the request: " + responseData);
+        Debug.Log("Response to detect : " + responseData);
+        // Hack to solve top level array json decoding by adding a wrapper dict
         responseData = "{\"faces\": " + responseData + "}";
         Debug.Log("Response from the request after change: " + responseData);
+
         AnalyzeResult a = JsonUtility.FromJson<AnalyzeResult>(responseData);
         foreach (Face face in a.faces)
         {
@@ -120,7 +127,9 @@ public class FaceAPI
         byte[] data = System.Text.Encoding.UTF8.GetBytes(jsonData);
         WWW identifyRequest = new WWW(urls["identity"], data, headers);
         yield return identifyRequest;
-        this.inspectResponse(identifyRequest);
+        if (!this.inspectResponse(identifyRequest))  {
+            yield break;
+        }
         
         responseData = identifyRequest.text;
         // Get personID to fetch person Data
@@ -131,13 +140,16 @@ public class FaceAPI
         Debug.Log("Person URL: " + personUrl);
         WWW fetchPersonResponse = new WWW(personUrl, null, headers);
         yield return fetchPersonResponse;
-        this.inspectResponse(fetchPersonResponse);    
+        if (!this.inspectResponse(fetchPersonResponse)) {
+            yield break;
+        }
         responseData = fetchPersonResponse.text;           
         Debug.Log("Response from person request: " + responseData);
 
         Person p = JsonUtility.FromJson<Person>(responseData);
         Debug.Log("Response from person request: " + p.name);
         this.name = p.name;
+        callback(p);
         yield return null;
     }
 

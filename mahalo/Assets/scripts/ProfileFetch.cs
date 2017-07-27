@@ -9,17 +9,18 @@ public static class ProfileFetch {
     private static float timeout = 10.0f;
 
 
-    public static IEnumerator fetchProfile(string person, System.Action<string> callback)
+    public static IEnumerator fetchProfile(Person person, System.Action<string, Person> callback)
     {
         Debug.Log("Starting a request to get profile");
-        var hdrs = new Dictionary<string,string>();      
+        string url = PROFILE_URL + person.name;
+
+        var hdrs = new Dictionary<string, string>();
         hdrs.Add("accept", "application/json");
-        string url = PROFILE_URL + person;
+        // Fails because CSRF guard
 
         WWW personProfile = new WWW(url, null, hdrs);
-        yield return personProfile;
-
-       float elapsedTime = 0;
+ 
+        float elapsedTime = 0;
         while (!personProfile.isDone)
         {
             elapsedTime += Time.deltaTime;
@@ -43,6 +44,6 @@ public static class ProfileFetch {
         Debug.Log("The response output is: ");
         Debug.LogWarning(jsonString);
         Debug.Log("The requested url: " + PROFILE_URL + person);
-        callback(jsonString);
+        callback(jsonString, person);
     }
 }

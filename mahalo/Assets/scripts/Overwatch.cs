@@ -3,6 +3,9 @@
 using HoloToolkit.Unity.InputModule;
 using UnityEngine.VR.WSA.WebCam;
 using System.Linq;
+using System.Collections;
+
+using System.Collections.Generic;
 
 /// <summary>
 /// Functionality built to change color of sphere on AirTap
@@ -26,7 +29,8 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
         cameraReady = false;
         Debug.Log("Camera is OFF");
         PhotoCapture.CreateAsync(true, OnPhotoCaptureCreated);
-        if (this.subscription_key != null && this.personGroupId != null) {
+        this.faceAPIClient = new FaceAPI();
+        /*if (this.subscription_key != null && this.personGroupId != null) {
             this.faceAPIClient = new FaceAPI(subscription_key, personGroupId);
         }
         else if (this.subscription_key != null)  {
@@ -34,7 +38,7 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
         }
         else  {
             this.faceAPIClient = new FaceAPI(subscription_key);
-        }
+        }**/
 
     }
 
@@ -48,10 +52,16 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
         }
 
     }
-    public void onProfileFecthComplete(string jsonProfile)
+    public void onFaceIdentifyCompleted(Person identifiedPerson)
     {
-        Debug.Log("Call back invoked: " + jsonProfile);
-        StartCoroutine(this.faceAPIClient.getFaceDataFromImage(latestCapturePath));
+        Debug.Log("onFaceIdentifyCompleted callback completed with Person: " + identifiedPerson);
+        StartCoroutine(ProfileFetch.fetchProfile(identifiedPerson, onProfileFecthComplete));
+    }
+
+    public void onProfileFecthComplete(string jsonProfile, Person person)
+    {
+        Debug.Log("onProfileFecthComplete Callback invoked with json:" + jsonProfile + "Person object" + person);
+
     }
     
     #region ISpeechHandler
@@ -143,9 +153,10 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
         if (result.success)
         {
 			Debug.Log("Photo captured at: " + latestCapturePath);
-            // person = FaceAPI.fetchPerson(image);
-            string person = "yonatan-feleke";
-            StartCoroutine(ProfileFetch.fetchProfile(person, onProfileFecthComplete));
+            
+            // Identify person alias
+            StartCoroutine(this.faceAPIClient.getFaceDataFromImage(latestCapturePath, onFaceIdentifyCompleted));
+
             // face = getFaceFromImage()
             // personIds = identifyFaceFromPersonGroup(faceIds)
             // getProfileData(personId)

@@ -40,7 +40,7 @@ public class Person {
 
 public class FaceAPIClient
 {
-    public static string personGroupId = "testlihalo_v3";
+    public static string personGroupId = "testliholo_v1";
     static string baseUrl = "https://westus.api.cognitive.microsoft.com/face/v1.0/detect?";
     public string faceId = null;
     public string name = null;
@@ -86,7 +86,7 @@ public class FaceAPIClient
           { "Ocp-Apim-Subscription-Key",  subscriptionKey},
           { "Content-Type", "application/json" }
         };
-        string jsonData = "{faceIds:[\"" + this.faceId + "\"]" + ",personGroupId:\"testlihalo_v3\", confidenceThreshold:0.3, maxNumOfCandidatesReturned:1}";
+        string jsonData = "{faceIds:[\"" + this.faceId + "\"]" + ",personGroupId:\"" + personGroupId + "\", confidenceThreshold:0.3, maxNumOfCandidatesReturned:1}";
         Debug.Log("Going to run identify request3");
         byte[] data = System.Text.Encoding.UTF8.GetBytes(jsonData);
         WWW www2 = new WWW(urls["identity"], data, headers);
@@ -104,40 +104,7 @@ public class FaceAPIClient
         Person p = JsonUtility.FromJson<Person>(responseData);
         Debug.Log("Response from person request: " + p.name);
         this.name = p.name;
-        yield break;
-    }
-
-    public IEnumerator IdentifyFacesFromFaceId()
-    {
-        Debug.Log("Going to run identify request");
-        var headers = new Dictionary<string, string>() {
-          { "Ocp-Apim-Subscription-Key",  subscriptionKey},
-          { "Content-Type", "application/json" }
-        };
-        
-
-        Debug.Log("Going to run identify request2");
-
-        string jsonData = "{faceIds:[\"" + this.faceId + "\"]" + ",personGroupId:\"testlihalo_v3\", confidenceThreshold:0.3, maxNumOfCandidatesReturned:1}";
-        // string jsonData = string.Format("{faceIds.0:\"{0}\",personGroupId:\"testlihalo_v3\", maxNumOfCandidatesReturned:\"1\", confidenceThreshold:\"0.3\"}", faceId) ;
-        Debug.Log("Going to run identify request3");
-        byte[] data = System.Text.Encoding.UTF8.GetBytes(jsonData);
-        Debug.Log("Going to run identify request4: " + jsonData);
-        WWW www = new WWW(urls["identity"], data, headers);
-        yield return www;
-        string responseData = www.text;
-        Debug.Log("Response from identify the request: " + responseData);
-        string toBeSearched = "personId";
-        string searched = responseData.Substring(responseData.IndexOf(toBeSearched)+toBeSearched.Length+3, 36);
-        Debug.Log("PersonId:  " + searched);
-        // await faceServiceClient.IdentifyAsync(this.personGroupId, faceIds, maxNumOfCandidatesReturned: 1, confidenceThreshold: (float)0.3);
-
-        string personUrl = urls["person"] + searched;
-        Debug.Log("Person URL: " + personUrl);
-        WWW www2 = new WWW(personUrl, null, headers);
-        yield return www2;
-        responseData = www2.text;
-        Debug.Log("Response from person request: " + responseData);
+        yield return null;
     }
 }
 
@@ -264,11 +231,12 @@ public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandl
         if (result.success)
         {
 			Debug.Log("Photo captured at: " + latestCapturePath);
-            string filepath = @"C:\Users\pthapar\workspaces\testCognitive\TestDAta\pankit.jpg";
+            //string filepath = @"C:\Users\pthapar\workspaces\testCognitive\TestDAta\pankit.jpg";
             // string filePath = 
             FaceAPIClient faceAPiClient = new FaceAPIClient();
-            StartCoroutine(faceAPiClient.getFaceDataFromImage(filepath));
-            Debug.Log("Recieved person data for " + faceAPiClient.name);
+            StartCoroutine(faceAPiClient.getFaceDataFromImage(latestCapturePath));
+ 
+            // Debug.Log("Recieved person data for " + faceAPiClient.name);
 
             // StartCoroutine(faceAPiClient.IdentifyFacesFromFaceId());
             // face = getFaceFromImage()

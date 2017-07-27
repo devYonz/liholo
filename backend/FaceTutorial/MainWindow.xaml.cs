@@ -21,7 +21,7 @@ namespace FaceTutorial
             new FaceServiceClient("d2f5dd1babbe48a8b8e0e6cc3bf39758", "https://westus.api.cognitive.microsoft.com/face/v1.0");
 
         string imagePath;
-        string personGroupId = "testlihalo_v3";
+        string personGroupId = "testliholo_v1";
         string personGroupName = "testGroup";
 
         public MainWindow()

@@ -1,7 +1,62 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using HoloToolkit.Unity.InputModule;
 using UnityEngine.VR.WSA.WebCam;
 using System.Linq;
+using System.Collections.Generic;
+using System;
+
+
+[Serializable]
+public class Face
+{
+    public string faceId;
+
+    [Serializable]
+    public class FaceRectangle
+    {
+        public int top;
+        public int width;
+        public int height;
+        public int left;
+    }
+
+    public FaceRectangle faceRectangle;
+}
+
+
+[Serializable]
+public class AnalyzeResult {
+    public Face[] faces;
+}
+
+public static class FaceAPIClient
+{
+    static string baseUrl = "https://westus.api.cognitive.microsoft.com/face/v1.0/detect?";
+    static string subscriptionKey = "d2f5dd1babbe48a8b8e0e6cc3bf39758";
+    public static IEnumerator getFaceDataFromImage(string filePath)
+    {
+        byte[] bytes = UnityEngine.Windows.File.ReadAllBytes(filePath);
+
+        var headers = new Dictionary<string, string>() {
+            { "Ocp-Apim-Subscription-Key",  subscriptionKey},
+            { "Content-Type", " application/octet-stream" }
+        };
+ 
+        WWW www = new WWW(baseUrl, bytes, headers);
+        yield return www;
+        string responseData = www.text;
+        Debug.Log("Response from the request: " + responseData);
+        responseData = "{\"faces\": " + responseData + "}";
+        Debug.Log("Response from the request after change: " + responseData);
+        AnalyzeResult a = JsonUtility.FromJson< AnalyzeResult> (responseData);
+        foreach (Face face in a.faces)
+        {
+            Debug.Log("Face Id " + face.faceId);
+        }        
+    }
+
+}
 
 /// <summary>
 /// Functionality built to change color of sphere on AirTap
@@ -16,6 +71,7 @@ public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandl
     PhotoCapture _photoCaptureObject = null;
 	string sub_key = "<sub_key_here>";
 	string personGroupId = "<person_group_here>";
+    
 
 
     void Start()
@@ -125,9 +181,11 @@ public class SpeechIdleChanger : MonoBehaviour, ISpeechHandler, IInputClickHandl
         if (result.success)
         {
 			Debug.Log("Photo captured at: " + latestCapturePath);
-			// face = getFaceFromImage()
-			// personIds = identifyFaceFromPersonGroup(faceIds)
-			// getProfileData(personId)
+            // string filepath = @"C:\Users\pthapar\workspaces\testCognitive\TestDAta\pankit.jpg";
+            StartCoroutine(FaceAPIClient.getFaceDataFromImage(filepath));
+            // face = getFaceFromImage()
+            // personIds = identifyFaceFromPersonGroup(faceIds)
+            // getProfileData(personId)
             // add componentObject(profileData)
         }
         else

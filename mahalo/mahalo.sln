@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mahalo", "mahalo.csproj", "{F910206E-C6B7-1F8B-4D39-1F4A14117659}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mahalo.Editor", "mahalo.Editor.csproj", "{5FB79A86-5996-4F66-7BE3-15022E47717E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F910206E-C6B7-1F8B-4D39-1F4A14117659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F910206E-C6B7-1F8B-4D39-1F4A14117659}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F910206E-C6B7-1F8B-4D39-1F4A14117659}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F910206E-C6B7-1F8B-4D39-1F4A14117659}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FB79A86-5996-4F66-7BE3-15022E47717E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FB79A86-5996-4F66-7BE3-15022E47717E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FB79A86-5996-4F66-7BE3-15022E47717E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FB79A86-5996-4F66-7BE3-15022E47717E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

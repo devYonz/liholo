@@ -15,8 +15,9 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
     bool cameraReady;
     private string latestCapturePath;
     PhotoCapture _photoCaptureObject = null;
-	string sub_key = "<sub_key_here>";
-	string personGroupId = "<person_group_here>";
+	public string subscription_key;
+	public string personGroupId;
+    FaceAPI faceAPIClient;
 
 
     void Start()
@@ -25,6 +26,16 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
         cameraReady = false;
         Debug.Log("Camera is OFF");
         PhotoCapture.CreateAsync(true, OnPhotoCaptureCreated);
+        if (this.subscription_key != null && this.personGroupId != null) {
+            this.faceAPIClient = new FaceAPI(subscription_key, personGroupId);
+        }
+        else if (this.subscription_key != null)  {
+            this.faceAPIClient = new FaceAPI(subscription_key);
+        }
+        else  {
+            this.faceAPIClient = new FaceAPI(subscription_key);
+        }
+
     }
 
     void Update()
@@ -40,6 +51,7 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
     public void onProfileFecthComplete(string jsonProfile)
     {
         Debug.Log("Call back invoked: " + jsonProfile);
+        StartCoroutine(this.faceAPIClient.getFaceDataFromImage(latestCapturePath));
     }
     
     #region ISpeechHandler

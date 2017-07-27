@@ -6,7 +6,9 @@ public class ProfileMenu : MonoBehaviour {
 
     public string dataFileName; 
     public Text nameText;
-    public Text infoText; 
+    public Text jobText;
+    public Text schoolText;
+    public Text locationText; 
 
     private ProfileData data; 
     private ProfileMenuItem[] menuItems;
@@ -17,8 +19,10 @@ public class ProfileMenu : MonoBehaviour {
     {
         data = LoadProfileData(dataFileName);
 
-        nameText.text = ""; // data.firstName + " " + data.lastName;
-        infoText.text = "";
+        nameText.text = data.firstName + " " + data.lastName;
+        jobText.text = data.headline;
+        schoolText.text = "Stanford University";
+        locationText.text = data.locationName; 
 
         menuItems = gameObject.GetComponentsInChildren<ProfileMenuItem>();
         menuItems[0].text = data.headline; 
@@ -26,7 +30,7 @@ public class ProfileMenu : MonoBehaviour {
         menuItems[2].text = data.summary;
         menuItems[3].text = data.industryName;
 
-        infoTextAnim = infoText.GetComponent<Animation>();
+        //infoTextAnim = infoText.GetComponent<Animation>();
     }
 
     public void UpdateFocusedItem(ProfileMenuItem item)
@@ -37,7 +41,7 @@ public class ProfileMenu : MonoBehaviour {
         if (focusedItem)
         {
             focusedItem.UnFocus();
-            infoTextAnim.Play("a_FadeOut");
+            //infoTextAnim.Play("a_FadeOut");
         }
 
         focusedItem = item;
@@ -62,7 +66,7 @@ public class ProfileMenu : MonoBehaviour {
 
     public void UpdateText()
     {
-        infoText.text = focusedItem.text;
-        infoTextAnim.Play("a_FadeIn"); 
+        //infoText.text = focusedItem.text;
+        //infoTextAnim.Play("a_FadeIn"); 
     }
 }

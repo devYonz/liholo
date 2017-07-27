@@ -19,16 +19,16 @@ public class ProfileMenu : MonoBehaviour {
     {
         data = LoadProfileData(dataFileName);
 
-        nameText.text = data.firstName + " " + data.lastName;
-        jobText.text = data.headline;
+        nameText.text = "Harrison Wray"; // data.firstName + " " + data.lastName;
+        jobText.text = "Software Engineer at Microsoft"; // data.headline;
         schoolText.text = "Stanford University";
-        locationText.text = data.locationName; 
+        locationText.text = "Los Altos, CA"; // data.locationName; 
 
         menuItems = gameObject.GetComponentsInChildren<ProfileMenuItem>();
-        menuItems[0].text = data.headline; 
-        menuItems[1].text = data.locationName;
-        menuItems[2].text = data.summary;
-        menuItems[3].text = data.industryName;
+        //menuItems[0].text = data.headline; 
+        //menuItems[1].text = data.locationName;
+        //menuItems[2].text = data.summary;
+        //menuItems[3].text = data.industryName;
 
         //infoTextAnim = infoText.GetComponent<Animation>();
     }

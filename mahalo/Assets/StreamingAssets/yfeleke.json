@@ -1,0 +1,57 @@
+{
+  "summary": "I like hard problems,  i love learning and coding. Luckily tech has an abundance of each! I'm a computer engineer with a combined 5 years of experience coding in many different languages. ",
+  "industryName": "Computer Software",
+  "lastName": "Feleke",
+  "supportedLocales": [
+    {
+      "country": "US",
+      "language": "en"
+    }
+  ],
+  "locationName": "San Jose, California",
+  "versionTag": "3582408795",
+  "pictureInfo": {
+    "croppedImage": "/AAEAAQAAAAAAAAtDAAAAJGQ4YWZkY2FjLTc1ZWItNGQ3ZC1iM2Q2LTFiMjM3ZmI3ZTcwMw.jpg",
+    "masterImage": "/AAEAAQAAAAAAAAvnAAAAJDhkNTExYjM1LTZkOTUtNDdiNi1iMDc2LTRjNDQxZWUwYTY1Ng.jpg",
+    "cropInfo": {
+      "x": 0,
+      "width": 450,
+      "y": 0,
+      "height": 450
+    }
+  },
+  "birthDate": {
+    "month": 5,
+    "year": 1989,
+    "day": 4
+  },
+  "industryUrn": "urn:li:fs_industry:4",
+  "defaultLocale": {
+    "country": "US",
+    "language": "en"
+  },
+  "firstName": "Yonatan",
+  "entityUrn": "urn:li:fs_profile:ACoAAAeHOrwB8vl0gOr0hkOUTUAdqwdcWoST64M",
+  "location": {
+    "basicLocation": {
+      "countryCode": "us",
+      "postalCode": "95126"
+    },
+    "preferredGeoPlace": "urn:li:fs_city:(us,7-1-0-43-16)"
+  },
+  "miniProfile": {
+    "firstName": "Yonatan",
+    "lastName": "Feleke",
+    "occupation": "Software Engineer at LinkedIn",
+    "objectUrn": "urn:li:member:126302908",
+    "entityUrn": "urn:li:fs_miniProfile:ACoAAAeHOrwB8vl0gOr0hkOUTUAdqwdcWoST64M",
+    "publicIdentifier": "yonatan-feleke",
+    "picture": {
+      "com.linkedin.voyager.common.MediaProcessorImage": {
+        "id": "/AAEAAQAAAAAAAAtDAAAAJGQ4YWZkY2FjLTc1ZWItNGQ3ZC1iM2Q2LTFiMjM3ZmI3ZTcwMw.jpg"
+      }
+    },
+    "trackingId": "HQarzKQxQDudDw4bhtULiw=="
+  },
+  "headline": "Software Engineer at LinkedIn"
+}

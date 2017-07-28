@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: e62248848b8100e4ab71ea8e71bb5a6d
-  - enabled: 1
+  - enabled: 0
     path: Assets/_scenes/mahalo-sphere.unity
     guid: 7f9648bd5afcdc543b0ec2536a1f538b
+  - enabled: 1
+    path: Assets/_scenes/_Main.unity
+    guid: 6b658452a06534948a1f24f2b56221f4

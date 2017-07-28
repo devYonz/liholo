@@ -29,16 +29,17 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
         cameraReady = false;
         Debug.Log("Camera is OFF");
         PhotoCapture.CreateAsync(true, OnPhotoCaptureCreated);
-        this.faceAPIClient = new FaceAPI();
-        /*if (this.subscription_key != null && this.personGroupId != null) {
+
+        if (!string.IsNullOrEmpty(this.subscription_key) && !string.IsNullOrEmpty(this.personGroupId)) {
             this.faceAPIClient = new FaceAPI(subscription_key, personGroupId);
         }
-        else if (this.subscription_key != null)  {
+        else if (!string.IsNullOrEmpty(this.subscription_key))
+        {
             this.faceAPIClient = new FaceAPI(subscription_key);
         }
         else  {
-            this.faceAPIClient = new FaceAPI(subscription_key);
-        }**/
+            this.faceAPIClient = new FaceAPI();
+        }
 
     }
 
@@ -70,14 +71,19 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
         string myWord = eventData.RecognizedText.ToLower();
         switch (myWord)
         {
-            case "mahalo":
-                Debug.Log("Recieved a Mahalo keyword");
-                gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            case "mahalo":                
+            case "hello":
+                Debug.Log("Recieved a " + myWord + " keyword");
+                gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
                 mahalo = true;
                 break;
-            case "hello":
-                Debug.Log("Recieved a Hello keyword");
-                StopCamera();
+            case "start camera":
+                Debug.Log("Recieved start camera keyword");
+                StartCamera();
+                break;
+            case "stop camera":
+                Debug.Log("Recieved stop camera keyword");
+                StartCamera();
                 break;
             default:
                 break;
@@ -86,6 +92,17 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
     #endregion ISpeechHandler
 
     #region CameraRegion
+    public void StartCamera()
+    {
+        PhotoCapture.CreateAsync(true, OnPhotoCaptureCreated);
+    }
+    public void StopCamera()
+    {
+        if (cameraReady)
+        {
+            _photoCaptureObject.StopPhotoModeAsync(OnStoppedPhotoMode);
+        }
+    }
     public void TakePhoto()
     {
         if (cameraReady)
@@ -100,13 +117,7 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
             Debug.LogWarning("The camera is not ready.");
         }
     }
-    public void StopCamera()
-    {
-        if (cameraReady)
-        {
-            _photoCaptureObject.StopPhotoModeAsync(OnStoppedPhotoMode);
-        }
-    }
+
     void OnPhotoCaptureCreated(PhotoCapture captureObject)
     {
         _photoCaptureObject = captureObject;

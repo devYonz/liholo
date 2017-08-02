@@ -3,9 +3,6 @@
 using HoloToolkit.Unity.InputModule;
 using UnityEngine.VR.WSA.WebCam;
 using System.Linq;
-using System.Collections;
-
-using System.Collections.Generic;
 
 /// <summary>
 /// Functionality built to change color of sphere on AirTap
@@ -53,16 +50,17 @@ public class Overwatch : MonoBehaviour, ISpeechHandler, IInputClickHandler
         }
 
     }
-    public void onFaceIdentifyCompleted(Person identifiedPerson)
-    {
-        Debug.Log("onFaceIdentifyCompleted callback completed with Person: " + identifiedPerson);
-        StartCoroutine(ProfileFetch.fetchProfile(identifiedPerson, onProfileFecthComplete));
-    }
-
-    public void onProfileFecthComplete(string jsonProfile, Person person)
+    public void onProfileFecthComplete(string jsonProfile, Person person, Face[] faces)
     {
         Debug.Log("onProfileFecthComplete Callback invoked with json:" + jsonProfile + "Person object" + person);
+        Debug.Log(gameObject.GetComponentInChildren<ProfileMenu>());
+        gameObject.GetComponentInChildren<ProfileMenu>().ReDraw(jsonProfile, person, faces);
+    }
 
+    public void onFaceIdentifyCompleted(Person identifiedPerson, Face[] faces)
+    {
+        Debug.Log("onFaceIdentifyCompleted callback completed with Person: " + identifiedPerson);
+        StartCoroutine(ProfileFetch.fetchProfile(identifiedPerson, faces, onProfileFecthComplete));
     }
     
     #region ISpeechHandler

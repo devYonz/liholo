@@ -9,6 +9,11 @@ public class ProfileData
         public int day;
     }
 
+    [System.Serializable]
+    public class PictureInfo
+    {
+        public string croppedImage;
+    }
     public string firstName;
     public string lastName;
     public string locationName;
@@ -16,4 +21,5 @@ public class ProfileData
     public string headline;
     public string summary;
     public BirthDate birthDate;
+    public PictureInfo pictureInfo;
 }

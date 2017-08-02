@@ -42,7 +42,11 @@ public class FaceAPI
     private string extractPersonID(string target)
     {
         string toBeSearched = "personId";
-        string searched = target.Substring(target.IndexOf(toBeSearched) + toBeSearched.Length + 3, 36);
+        int personStrIdx = target.IndexOf(toBeSearched);
+        if (personStrIdx == -1) {
+            throw new System.Exception("Person not found");
+        }
+        string searched = target.Substring( personStrIdx + toBeSearched.Length + 3, 36);
         Debug.Log("extractPersonID found PersonId:  " + searched + "\nfrom: " + target);
         return searched;
     }
@@ -85,7 +89,7 @@ public class FaceAPI
         }
     } **/
 
-    public IEnumerator getFaceDataFromImage(string filePath, System.Action<Person> callback)
+    public IEnumerator getFaceDataFromImage(string filePath, System.Action<Person, Face[]> callback)
     {
         byte[] bytes = UnityEngine.Windows.File.ReadAllBytes(filePath);
 
@@ -149,7 +153,7 @@ public class FaceAPI
         Person p = JsonUtility.FromJson<Person>(responseData);
         Debug.Log("Response from person request: " + p.name);
         this.name = p.name;
-        callback(p);
+        callback(p, a.faces);
         yield return null;
     }
 

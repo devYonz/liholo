@@ -674,6 +674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dataFileName: yfeleke.json
+  picture: {fileID: 9297219}
   nameText: {fileID: 587219376}
   jobText: {fileID: 1413808730}
   schoolText: {fileID: 1486195364}
@@ -726,6 +727,7 @@ GameObject:
   - component: {fileID: 504386436}
   - component: {fileID: 504386435}
   - component: {fileID: 504386439}
+  - component: {fileID: 504386440}
   m_Layer: 0
   m_Name: FaceCube
   m_TagString: Untagged
@@ -815,6 +817,19 @@ MonoBehaviour:
   PositionLerpSpeed: 0.05
   RotationLerpSpeed: 0.2
   IsDraggingEnabled: 1
+--- !u!114 &504386440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 504386434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a3a63f3af8edf049a35265faa8ff838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subscription_key: 
+  personGroupId: 
 --- !u!1 &508966958
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,6 +1409,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1056171996}
+  - component: {fileID: 1056171997}
   m_Layer: 0
   m_Name: SpeechInput
   m_TagString: Untagged
@@ -1414,6 +1430,27 @@ Transform:
   m_Father: {fileID: 329973485}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1056171997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1056171995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62fd7a55ba7458499b69cae18f83806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RecognizerStart: 0
+  Keywords:
+  - Keyword: Mahalo
+    KeyCode: 109
+  - Keyword: Hello
+    KeyCode: 104
+  - Keyword: Start Camera
+    KeyCode: 99
+  - Keyword: Stop Camera
+    KeyCode: 115
 --- !u!1 &1074251914
 GameObject:
   m_ObjectHideFlags: 0
